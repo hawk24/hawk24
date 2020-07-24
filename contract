@@ -113,7 +113,7 @@ contract HAWK Token is ERC20Interface, Owned, SafeMath {
     // Constructor
     // ------------------------------------------------------------------------
     constructor() public {
-        symbol = "0FUCKS";
+        symbol = "Hawk";
         name = "HAWK Token";
         decimals = 8;
         _totalSupply = 1000000000000000000000000000000;
