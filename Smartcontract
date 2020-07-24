@@ -55,11 +55,8 @@ library SafeMath {
     }
 
       function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
-        // Solidity only automatically asserts when dividing by 0
-        require(b > 0, errorMessage);
         uint256 c = a / b;
-        // assert(a == b * c + a % b); // There is no case in which this doesn't hold
-
+        
         return c;
     }
 
@@ -161,63 +158,61 @@ contract Hawk is ERC20Interface, Owned, SafeMath {
     // ------------------------------------------------------------------------
     // Total supply
     // ------------------------------------------------------------------------
-    function totalSupply() public constant returns (uint) {
-        return _totalSupply  - balances[address(0)];
+   event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
+    event Transfer(address indexed from, address indexed to, uint tokens);
+
+
+    mapping(address => uint256) balances;
+
+    mapping(address => mapping (address => uint256)) allowed;
+    
+    uint256 totalSupply_;
+
+    using SafeMath for uint256;
+
+
+   constructor(uint256 total) public {  
+	totalSupply_ = total;
+	balances[msg.sender] = totalSupply_;
+    }  
+
+    function totalSupply() public override view returns (uint256) {
+	return totalSupply_;
     }
-
-
-    // ------------------------------------------------------------------------
-    // Get the token balance for account tokenOwner
-    // ------------------------------------------------------------------------
-    function balanceOf(address tokenOwner) public constant returns (uint balance) {
+    
+    function balanceOf(address tokenOwner) public override view returns (uint256) {
         return balances[tokenOwner];
     }
 
-
-    // ------------------------------------------------------------------------
-    // Transfer the balance from token owner's account to to account
-    // - Owner's account must have sufficient balance to transfer
-    // - 0 value transfers are allowed
-    // ------------------------------------------------------------------------
-    function transfer(address to, uint tokens) public returns (bool success) {
-        balances[msg.sender] = safeSub(balances[msg.sender], tokens);
-        balances[to] = safeAdd(balances[to], tokens);
-        emit Transfer(msg.sender, to, tokens);
+    function transfer(address receiver, uint256 numTokens) public override returns (bool) {
+        require(numTokens <= balances[msg.sender]);
+        balances[msg.sender] = balances[msg.sender].sub(numTokens);
+        balances[receiver] = balances[receiver].add(numTokens);
+        emit Transfer(msg.sender, receiver, numTokens);
         return true;
     }
 
-
-    // ------------------------------------------------------------------------
-    // Token owner can approve for spender to transferFrom(...) tokens
-    // from the token owner's account
-    //
-    // https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md
-    // recommends that there are no checks for the approval double-spend attack
-    // as this should be implemented in user interfaces 
-    // ------------------------------------------------------------------------
-    function approve(address spender, uint tokens) public returns (bool success) {
-        allowed[msg.sender][spender] = tokens;
-        emit Approval(msg.sender, spender, tokens);
+    function approve(address delegate, uint256 numTokens) public override returns (bool) {
+        allowed[msg.sender][delegate] = numTokens;
+        emit Approval(msg.sender, delegate, numTokens);
         return true;
     }
 
+    function allowance(address owner, address delegate) public override view returns (uint) {
+        return allowed[owner][delegate];
+    }
 
-    // ------------------------------------------------------------------------
-    // Transfer tokens from the from account to the to account
-    // 
-    // The calling account must already have sufficient tokens approve(...)-d
-    // for spending from the from account and
-    // - From account must have sufficient balance to transfer
-    // - Spender must have sufficient allowance to transfer
-    // - 0 value transfers are allowed
-    // ------------------------------------------------------------------------
-    function transferFrom(address from, address to, uint tokens) public returns (bool success) {
-        balances[from] = safeSub(balances[from], tokens);
-        allowed[from][msg.sender] = safeSub(allowed[from][msg.sender], tokens);
-        balances[to] = safeAdd(balances[to], tokens);
-        emit Transfer(from, to, tokens);
+    function transferFrom(address owner, address buyer, uint256 numTokens) public override returns (bool) {
+        require(numTokens <= balances[owner]);    
+        require(numTokens <= allowed[owner][msg.sender]);
+    
+        balances[owner] = balances[owner].sub(numTokens);
+        allowed[owner][msg.sender] = allowed[owner][msg.sender].sub(numTokens);
+        balances[buyer] = balances[buyer].add(numTokens);
+        emit Transfer(owner, buyer, numTokens);
         return true;
     }
+}
 
 
     // ------------------------------------------------------------------------
