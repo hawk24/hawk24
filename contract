@@ -3,7 +3,7 @@ pragma solidity ^0.4.24;
 // ----------------------------------------------------------------------------
 // '0Fucks' token contract
 //
-// Deployed to : 0x5A86f0cafD4ef3ba4f0344C138afcC84bd1ED222
+// Deployed to : 0xDE25f671FAFC91D09DFD9C3F64c9061946D4650F
 // Symbol      : 0FUCKS
 // Name        : 0 Fucks Token
 // Total supply: 100000000
