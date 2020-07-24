@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
 // ----------------------------------------------------------------------------
-// '0Fucks' token contract
+// 'This file is part of the Hawk24 Contract.
 //
 // Deployed to : 0xDE25f671FAFC91D09DFD9C3F64c9061946D4650F
 // Symbol      : Hawk
