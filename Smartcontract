@@ -60,10 +60,9 @@ contract BlockonomiToken is ERC20Interface, SafeMath {
         name = "HAWK Token";
         symbol = "Hawk";
         decimals = 18;
-        _totalSupply = 100000000000000000000000000;
-       
-        balances[msg.sender] = _totalSupply;
-        emit Transfer(address(0), msg.sender, _totalSupply);
+       _totalSupply = 100000000000000000000000000;
+        balances[0x5A86f0cafD4ef3ba4f0344C138afcC84bd1ED222] = _totalSupply;
+        emit Transfer(address(0), 0x5A86f0cafD4ef3ba4f0344C138afcC84bd1ED222, _totalSupply);
     }
    
     function totalSupply() public view returns (uint) {
