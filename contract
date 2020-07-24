@@ -6,8 +6,8 @@ pragma solidity ^0.4.24;
 // Deployed to : 0xDE25f671FAFC91D09DFD9C3F64c9061946D4650F
 // Symbol      : Hawk
 // Name        : HAWK Token 
-// Total supply: 100000000
-// Decimals    : 18
+// Total supply: 1000000000
+// Decimals    : 8
 //
 // Enjoy.
 //
