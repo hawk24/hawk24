@@ -51,12 +51,7 @@ contract HAWK_Token is ERC20Interface, SafeMath {
     mapping(address => uint) balances;
     mapping(address => mapping(address => uint)) allowed;
    
-    /**
-     * Constrctor function
-     *
-     * Initializes contract with initial supply tokens to the creator of the contract
-     */
-    constructor() public {
+       contract() public {
         name = "HAWK Token";
         symbol = "Hawk";
         decimals = 18;
