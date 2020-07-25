@@ -8,11 +8,10 @@ pragma solidity ^0.5.0;
 // Name        : HAWK Token 
 // Total supply: 1000000000
 // Decimals    : 18
-//
+// ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
 // ERC Token Standard #20 Interface
-//
 // ----------------------------------------------------------------------------
 contract ERC20Interface {
     function totalSupply() public view returns (uint);
@@ -51,7 +50,7 @@ contract HAWK_Token is ERC20Interface, SafeMath {
     mapping(address => uint) balances;
     mapping(address => mapping(address => uint)) allowed;
    
-       constructor() public {
+       constructorHawk() public {
         name = "HAWK Token";
         symbol = "Hawk";
         decimals = 18;
